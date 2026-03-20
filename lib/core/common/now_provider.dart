@@ -1,0 +1,1 @@
+typedef NowProvider = DateTime Function();

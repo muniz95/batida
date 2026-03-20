@@ -5,16 +5,16 @@ import 'package:batida/core/presentation/batida_app.dart';
 import 'package:batida/features/appointment/domain/repositories/appointment_repository.dart';
 import 'package:batida/features/appointment/infrastructure/repositories/in_memory_appointment_repository.dart';
 
-BatidaApp buildTestApp({
+Future<BatidaApp> buildTestApp({
   required NowProvider now,
   AppointmentRepository? appointmentRepository,
-}) {
-  final dependencies = AppDependencies.bootstrap(
+}) async {
+  await configureDependencies(
     environment: const AppEnvironment(appName: 'Batida'),
     now: now,
     appointmentRepository:
         appointmentRepository ?? InMemoryAppointmentRepository(),
   );
 
-  return BatidaApp(dependencies: dependencies);
+  return const BatidaApp();
 }

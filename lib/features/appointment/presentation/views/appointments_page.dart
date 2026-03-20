@@ -5,9 +5,7 @@ import 'package:batida/features/appointment/presentation/widgets/register_appoin
 import 'package:flutter/material.dart';
 
 class AppointmentsPage extends StatefulWidget {
-  const AppointmentsPage({super.key, required this.dependencies});
-
-  final AppDependencies dependencies;
+  const AppointmentsPage({super.key});
 
   @override
   State<AppointmentsPage> createState() => _AppointmentsPageState();
@@ -19,11 +17,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   @override
   void initState() {
     super.initState();
-    _viewModel = AppointmentsViewModel(
-      registerWorkAppointment: widget.dependencies.registerWorkAppointment,
-      getAppointmentsForDay: widget.dependencies.getAppointmentsForDay,
-      now: widget.dependencies.now,
-    );
+    _viewModel = getIt<AppointmentsViewModel>();
     _viewModel.initialize();
   }
 

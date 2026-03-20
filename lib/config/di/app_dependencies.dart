@@ -5,36 +5,41 @@ import 'package:batida/features/appointment/domain/repositories/appointment_repo
 import 'package:batida/features/appointment/domain/usecases/get_appointments_for_day.dart';
 import 'package:batida/features/appointment/domain/usecases/register_work_appointment.dart';
 import 'package:batida/features/appointment/infrastructure/repositories/shared_preferences_appointment_repository.dart';
+import 'package:batida/features/appointment/presentation/viewmodels/appointments_view_model.dart';
+import 'package:get_it/get_it.dart';
 
-class AppDependencies {
-  AppDependencies._({
-    required this.environment,
-    required this.now,
-    required AppointmentRepository appointmentRepository,
-  }) : _appointmentRepository = appointmentRepository;
+final GetIt getIt = GetIt.instance;
 
-  factory AppDependencies.bootstrap({
-    required AppEnvironment environment,
-    NowProvider now = _defaultNow,
-    AppointmentRepository? appointmentRepository,
-  }) {
-    return AppDependencies._(
-      environment: environment,
-      now: now,
-      appointmentRepository:
-          appointmentRepository ?? SharedPreferencesAppointmentRepository(),
-    );
-  }
+Future<void> configureDependencies({
+  required AppEnvironment environment,
+  NowProvider now = _defaultNow,
+  AppointmentRepository? appointmentRepository,
+}) async {
+  await getIt.reset();
 
-  final AppEnvironment environment;
-  final NowProvider now;
-  final AppointmentRepository _appointmentRepository;
-
-  late final RegisterWorkAppointment registerWorkAppointment =
-      RegisterWorkAppointment(_appointmentRepository);
-  late final GetAppointmentsForDay getAppointmentsForDay =
-      GetAppointmentsForDay(_appointmentRepository);
-  late final AppRouter router = AppRouter(dependencies: this);
-
-  static DateTime _defaultNow() => DateTime.now();
+  getIt.registerSingleton<AppEnvironment>(environment);
+  getIt.registerLazySingleton<NowProvider>(() => now);
+  getIt.registerLazySingleton<AppointmentRepository>(
+    () => appointmentRepository ?? SharedPreferencesAppointmentRepository(),
+  );
+  getIt.registerLazySingleton<RegisterWorkAppointment>(
+    () => RegisterWorkAppointment(getIt<AppointmentRepository>()),
+  );
+  getIt.registerLazySingleton<GetAppointmentsForDay>(
+    () => GetAppointmentsForDay(getIt<AppointmentRepository>()),
+  );
+  getIt.registerFactory<AppointmentsViewModel>(
+    () => AppointmentsViewModel(
+      registerWorkAppointment: getIt<RegisterWorkAppointment>(),
+      getAppointmentsForDay: getIt<GetAppointmentsForDay>(),
+      now: getIt<NowProvider>(),
+    ),
+  );
+  getIt.registerLazySingleton<AppRouter>(() => const AppRouter());
 }
+
+Future<void> resetDependencies() {
+  return getIt.reset();
+}
+
+DateTime _defaultNow() => DateTime.now();

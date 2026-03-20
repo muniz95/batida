@@ -1,12 +1,9 @@
-import 'package:batida/config/di/app_dependencies.dart';
 import 'package:batida/core/routing/app_routes.dart';
 import 'package:batida/features/appointment/presentation/views/appointments_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
-  const AppRouter({required this.dependencies});
-
-  final AppDependencies dependencies;
+  const AppRouter();
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final routeName = settings.name ?? AppRoutes.appointments;
@@ -14,12 +11,12 @@ class AppRouter {
     switch (routeName) {
       case AppRoutes.appointments:
         return MaterialPageRoute<void>(
-          builder: (_) => AppointmentsPage(dependencies: dependencies),
+          builder: (_) => const AppointmentsPage(),
           settings: const RouteSettings(name: AppRoutes.appointments),
         );
       default:
         return MaterialPageRoute<void>(
-          builder: (_) => AppointmentsPage(dependencies: dependencies),
+          builder: (_) => const AppointmentsPage(),
           settings: const RouteSettings(name: AppRoutes.appointments),
         );
     }

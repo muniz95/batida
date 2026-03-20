@@ -3,10 +3,11 @@ import 'package:batida/config/environment/app_environment.dart';
 import 'package:batida/core/presentation/batida_app.dart';
 import 'package:flutter/widgets.dart';
 
-void main() {
-  final dependencies = AppDependencies.bootstrap(
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies(
     environment: const AppEnvironment(appName: 'Batida'),
   );
 
-  runApp(BatidaApp(dependencies: dependencies));
+  runApp(const BatidaApp());
 }

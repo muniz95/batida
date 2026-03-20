@@ -11,7 +11,7 @@ void main() {
   ) async {
     final fixedNow = DateTime(2026, 3, 20, 9, 30);
 
-    await tester.pumpWidget(buildTestApp(now: () => fixedNow));
+    await tester.pumpWidget(await buildTestApp(now: () => fixedNow));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Add appointment'));

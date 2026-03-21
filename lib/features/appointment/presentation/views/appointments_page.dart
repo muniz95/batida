@@ -2,6 +2,7 @@ import 'package:batida/config/di/app_dependencies.dart';
 import 'package:batida/features/appointment/presentation/viewmodels/appointments_view_model.dart';
 import 'package:batida/features/appointment/presentation/views/appointments_list.dart';
 import 'package:batida/features/appointment/presentation/widgets/register_appointment_sheet.dart';
+import 'package:batida/features/appointment/utils/appointment_helpers.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentsPage extends StatefulWidget {
@@ -82,7 +83,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        '${_viewModel.appointmentsCount} appointment${_viewModel.appointmentsCount == 1 ? '' : 's'} registered',
+                        'Total worked time: ${AppointmentHelpers.calculateWorkedTimeText(_viewModel.todaysAppointments)}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],

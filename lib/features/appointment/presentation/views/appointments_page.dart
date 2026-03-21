@@ -1,6 +1,7 @@
 import 'package:batida/config/di/app_dependencies.dart';
 import 'package:batida/features/appointment/presentation/viewmodels/appointments_view_model.dart';
 import 'package:batida/features/appointment/presentation/views/appointments_list.dart';
+import 'package:batida/features/appointment/presentation/widgets/day_navigation_bar.dart';
 import 'package:batida/features/appointment/presentation/widgets/register_appointment_sheet.dart';
 import 'package:batida/features/appointment/utils/appointment_helpers.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,9 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
       context: context,
       isScrollControlled: true,
       builder: (_) =>
-          RegisterAppointmentSheet(initialDateTime: _viewModel.currentDay),
+          RegisterAppointmentSheet(
+            initialDateTime: _viewModel.initialAppointmentDateTime,
+          ),
     );
 
     if (selectedTime == null) {
@@ -51,7 +54,8 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     return ListenableBuilder(
       listenable: _viewModel,
       builder: (context, _) {
-        final currentDay = _viewModel.currentDay;
+        final selectedDay = _viewModel.selectedDay;
+        final appointments = _viewModel.appointments;
 
         return Scaffold(
           appBar: AppBar(title: const Text('Work appointments')),
@@ -71,19 +75,19 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Today',
+                        'Day',
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         MaterialLocalizations.of(
                           context,
-                        ).formatMediumDate(currentDay),
+                        ).formatMediumDate(selectedDay),
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Total worked time: ${AppointmentHelpers.calculateWorkedTimeText(_viewModel.todaysAppointments)}',
+                        'Total worked time: ${AppointmentHelpers.calculateWorkedTimeText(appointments)}',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
@@ -92,10 +96,19 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                 const SizedBox(height: 20),
                 Text('Entries', style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 12),
+                DayNavigationBar(
+                  selectedDay: selectedDay,
+                  canGoToNextDay: _viewModel.canGoToNextDay,
+                  onPreviousDay: () {
+                    _viewModel.goToPreviousDay();
+                  },
+                  onNextDay: () {
+                    _viewModel.goToNextDay();
+                  },
+                ),
+                const SizedBox(height: 12),
                 Expanded(
-                  child: AppointmentsList(
-                    appointments: _viewModel.todaysAppointments,
-                  ),
+                  child: AppointmentsList(appointments: appointments),
                 ),
               ],
             ),

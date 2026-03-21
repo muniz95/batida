@@ -20,7 +20,7 @@ class AppointmentsList extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            'No appointments registered for today yet.',
+            'No appointments registered for this day yet.',
             textAlign: TextAlign.center,
           ),
         ),

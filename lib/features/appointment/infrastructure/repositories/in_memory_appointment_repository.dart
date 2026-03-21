@@ -11,7 +11,7 @@ class InMemoryAppointmentRepository implements AppointmentRepository {
             .where((appointment) => _isSameDay(appointment.registeredAt, day))
             .toList()
           ..sort(
-            (left, right) => right.registeredAt.compareTo(left.registeredAt),
+            (left, right) => left.registeredAt.compareTo(right.registeredAt),
           );
 
     return appointments;

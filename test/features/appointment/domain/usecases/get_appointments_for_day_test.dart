@@ -29,8 +29,8 @@ void main() {
       final appointments = await useCase(DateTime(2026, 3, 20));
 
       expect(appointments, hasLength(2));
-      expect(appointments.first.id, 'afternoon');
-      expect(appointments.last.id, 'morning');
+      expect(appointments.first.id, 'morning');
+      expect(appointments.last.id, 'afternoon');
     },
   );
 }

@@ -35,7 +35,7 @@ class _RegisterAppointmentSheetState extends State<RegisterAppointmentSheet> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Choose the time you want to register for today.',
+              'Choose the time you want to register for this day.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
@@ -49,7 +49,6 @@ class _RegisterAppointmentSheetState extends State<RegisterAppointmentSheet> {
                 mode: CupertinoDatePickerMode.time,
                 use24hFormat: true,
                 initialDateTime: widget.initialDateTime,
-                minimumDate: DateTime.now(),
                 onDateTimeChanged: (value) {
                   setState(() {
                     _selectedDateTime = value;

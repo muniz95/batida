@@ -24,6 +24,7 @@ void main() {
     await tester.tap(find.text('Save appointment'));
     await tester.pumpAndSettle();
 
-    expect(find.text('2 appointments registered'), findsOne);
+    expect(find.text('No appointments registered for this day yet.'), findsNothing);
+    expect(find.text('09:30'), findsNWidgets(2));
   });
 }

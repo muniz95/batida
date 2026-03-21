@@ -49,6 +49,7 @@ class _RegisterAppointmentSheetState extends State<RegisterAppointmentSheet> {
                 mode: CupertinoDatePickerMode.time,
                 use24hFormat: true,
                 initialDateTime: widget.initialDateTime,
+                minimumDate: DateTime.now(),
                 onDateTimeChanged: (value) {
                   setState(() {
                     _selectedDateTime = value;
